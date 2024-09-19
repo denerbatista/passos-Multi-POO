@@ -135,6 +135,63 @@ Para gerar o cliente Prisma, execute o comando abaixo:
 ```bash
 yarn prisma generate
 ```
+### 4.6 Criar o PrismaService
+
+Crie o arquivo `prisma.service.ts`
+
+Dentro da pasta `src/prisma/`, crie o arquivo `prisma.service.ts` com o seguinte conteúdo:
+
+```typescript
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+
+@Injectable()
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  async onModuleInit() {
+    await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
+  }
+}
+```
+
+### 4.7 Crie o arquivo `prisma.module.ts`
+
+No mesmo diretório, crie o arquivo `prisma.module.ts` com o seguinte conteúdo:
+
+```typescript
+import { Global, Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+
+@Global()
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService],
+})
+export class PrismaModule {}
+```
+
+### 4.8 Importe o PrismaModule no AppModule
+
+No arquivo `app.module.ts`, importe o `PrismaModule`:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UtilityModule } from './utility/utility.module';
+import { PrismaModule } from './prisma/prisma.module';
+
+@Module({
+  imports: [UtilityModule, PrismaModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+```
 
 ## 5. Criar o DTO para `Utility`
 
