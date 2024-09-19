@@ -22,6 +22,7 @@ async function bootstrap() {
     .setTitle('API Site institucional')
     .setDescription('API para gerenciamento Pagina institucional')
     .setVersion('1.0')
+    .addTag('Status')
     .addTag('Utility')
     .build();
 
@@ -35,6 +36,27 @@ async function bootstrap() {
   console.log(`Application is running on: http://localhost:${port}/api`);
 }
 bootstrap();
+```
+
+### 2.1 Adicione a Tag de Endpoint no app.controller substituindo o conteudo pelo código abaixo:
+
+```typescript
+
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('Status')
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
+}
+
 ```
 
 ## 3. Conectar o Prisma ao PostgreSQL com Render.com
