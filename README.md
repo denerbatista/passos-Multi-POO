@@ -242,7 +242,7 @@ No arquivo `utility.service.ts`, altere o código para utilizar o Prisma e criar
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUtilityDto } from './dto/create-utility.dto';
 import { UpdateUtilityDto } from './dto/update-utility.dto';
 
